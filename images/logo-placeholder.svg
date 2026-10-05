@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 56" fill="none">
+  <!-- Icon: green circle with community/growth symbol -->
+  <circle cx="28" cy="28" r="26" fill="#1F6B3B"/>
+
+  <!-- Central person (gold - leader) -->
+  <circle cx="28" cy="19" r="6.5" fill="#D4A017"/>
+  <path d="M17 46 Q28 34 39 46Z" fill="white" opacity="0.88"/>
+
+  <!-- Left person (white - community member) -->
+  <circle cx="12" cy="22" r="4" fill="white" opacity="0.55"/>
+  <path d="M5 40 Q12 32 19 38Z" fill="white" opacity="0.35"/>
+
+  <!-- Right person (white - community member) -->
+  <circle cx="44" cy="22" r="4" fill="white" opacity="0.55"/>
+  <path d="M37 38 Q44 32 51 40Z" fill="white" opacity="0.35"/>
+
+  <!-- Text: VISIONARY -->
+  <text x="62" y="22" font-family="Poppins, Arial, sans-serif" font-weight="800" font-size="15" fill="#1F6B3B">VISIONARY</text>
+
+  <!-- Text: MINDS (gold) -->
+  <text x="62" y="39" font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="14" fill="#D4A017">MINDS</text>
+
+  <!-- Tagline -->
+  <text x="62" y="51" font-family="Arial, sans-serif" font-size="7" fill="#94A3B8" letter-spacing="0.8">COMMUNITY BASED ORGANIZATION</text>
+</svg>

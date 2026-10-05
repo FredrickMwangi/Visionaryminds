@@ -1,0 +1,340 @@
+/* ============================================================
+   VISIONARY MINDS — RESPONSIVE STYLESHEET
+   Breakpoints:
+     Desktop  : > 1024px  (default, style.css)
+     Tablet   : ≤ 1024px
+     Mobile   : ≤ 768px
+     Small    : ≤ 480px
+     XSmall   : ≤ 360px
+   ============================================================ */
+
+
+/* ── GLOBAL MOBILE SAFETY ─────────────────────────────────── */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Minimum touch target size (WCAG 2.5.5) */
+a, button, [role="button"], input[type="submit"],
+input[type="button"], label[for], select {
+  touch-action: manipulation;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* ── HEADER SQUEEZE (desktop nav between 769px and 1200px) ─── */
+/* Step the header down as space runs out so Donate always stays on screen. */
+@media (max-width: 1200px) {
+  .nav-inner { gap: 1rem; }
+  .nav-link { padding: 0.5rem 0.6rem; }
+  .nav-link::after { left: 0.6rem; right: 0.6rem; }
+  .logo-wordmark__sub { display: none; }
+  .nav-donate { margin-left: -0.375rem; }
+}
+@media (max-width: 1080px) {
+  .nav-cta { display: none; }
+  .nav-donate { margin-left: 0; }
+}
+@media (min-width: 769px) and (max-width: 960px) {
+  .logo-wordmark { display: none; }
+}
+
+
+/* ── TABLET (≤ 1024px) ────────────────────────────────────── */
+@media (max-width: 1024px) {
+
+  :root {
+    --section-py: 4rem;
+  }
+
+  /* About split: stack vertically */
+  .about-split {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .about-split-img { max-width: 560px; margin: 0 auto; width: 100%; }
+
+  /* Impact & leaders: 2 columns on tablet */
+  .impact-grid   { grid-template-columns: repeat(2, 1fr); }
+  .leaders-grid  { grid-template-columns: repeat(2, 1fr); }
+
+  /* Stats: 2 columns */
+  .stats-band-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+
+  /* Values: 2 columns */
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Programs grid: 2 columns */
+  .program-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Program detail: stack */
+  .prog-detail {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .prog-detail--alt .prog-detail-img,
+  .prog-detail--alt .prog-detail-content { order: unset; }
+
+  /* Contact: stack */
+  .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+
+  /* Footer: 2 columns */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+  /* Lightbox nav arrows — bring inside */
+  .lightbox-prev { left: -2rem; }
+  .lightbox-next { right: -2rem; }
+}
+
+
+/* ── MOBILE (≤ 768px) ─────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  :root {
+    --section-py: 3.5rem;
+    --px: 1.25rem;
+  }
+
+  /* ── Navigation ── */
+  /* 44×44 tap target for the hamburger (bars stay the same size) */
+  .nav-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .nav-cta    { display: none; }
+  /* Donate stays visible on phones as a compact button beside the menu toggle */
+  .nav-inner { gap: 0.5rem; }
+  .nav-donate {
+    margin-left: auto;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  /* Shrink logo on mobile */
+  .nav-logo-img { height: 48px; }
+  .logo-wordmark__sub { display: none; }
+  .logo-wordmark__name { font-size: 1rem; }
+
+  .nav-menu {
+    position: fixed;
+    inset: var(--nav-h) 0 0 0;
+    background: var(--white);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 1rem 1.5rem 2rem;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 850;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .nav-menu.open { transform: translateX(0); }
+
+  .nav-link {
+    font-size: 1.0625rem;
+    padding: 0.875rem 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-link::after { display: none; }
+  .nav-menu li:last-child .nav-link { border-bottom: none; }
+
+  /* ── Hero ── */
+  /* padding-block only: keep the container's side gutters */
+  .hero-content { padding-block: 1.5rem; }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+  .hero-stats  { display: none; }
+  .hero-scroll { display: none; }
+
+  /* ── Grids: all single column ── */
+  .impact-grid,
+  .program-grid,
+  .leaders-grid { grid-template-columns: 1fr; }
+
+  /* ── About ── */
+  .about-stats { grid-template-columns: 1fr 1fr; }
+
+  /* ── Mission / Vision ── */
+  .mv-grid { grid-template-columns: 1fr; }
+
+  /* ── Values: 2 cols ── */
+  .values-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── Gallery ── */
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 180px;
+  }
+  .gal-item:nth-child(1) { grid-row: span 1; }
+  .gal-item:nth-child(6) { grid-column: span 1; }
+
+  .gallery-preview-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, 170px);
+  }
+
+  /* ── Stats band: 2 cols ── */
+  .stats-band-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── CTA actions: stack ── */
+  .cta-actions { flex-direction: column; align-items: center; }
+  .cta-actions .btn { width: 100%; max-width: 320px; min-height: 48px; }
+
+  /* ── Footer: single column ── */
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
+  .footer-bottom-links { justify-content: center; }
+  .footer-bottom-links a { display: inline-block; padding-block: 0.625rem; }
+  .footer-social-a { width: 44px; height: 44px; }
+
+  /* ── Form row: single column ── */
+  .form-row { grid-template-columns: 1fr; }
+
+  /* Larger form controls for touch */
+  .form-control {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+  textarea.form-control { min-height: 120px; }
+
+  /* ── Buttons: ensure tap-friendly height ── */
+  .btn { min-height: 44px; }
+
+  /* ── Back to top ── */
+  #back-to-top { bottom: 1.25rem; right: 1.25rem; }
+
+  /* ── Lightbox arrows: hide on mobile (use swipe) ── */
+  .lightbox-prev,
+  .lightbox-next { display: none; }
+
+  /* ── Contact form section ── */
+  .contact-form-section { margin-top: 2rem; }
+}
+
+
+/* ── SMALL MOBILE (≤ 480px) ──────────────────────────────── */
+@media (max-width: 480px) {
+
+  :root {
+    --section-py: 3rem;
+    --px: 1rem;
+  }
+
+  /* Typography scale-down */
+  h1 { font-size: 1.875rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.125rem; }
+
+  /* Tighten hero */
+  .hero-eyebrow { font-size: 0.6875rem; letter-spacing: 0.1em; }
+  .hero-title   { font-size: 1.875rem; }
+  .hero-desc    { font-size: 1rem; }
+
+  /* Values: single column */
+  .values-grid { grid-template-columns: 1fr; }
+
+  /* About stats: single column */
+  .about-stats { grid-template-columns: 1fr; }
+
+  /* Stats band: single column */
+  .stats-band-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .stat-num { font-size: 2.25rem; }
+
+  /* Gallery: single column */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
+  }
+  .gal-item:nth-child(6) { grid-column: span 1; }
+
+  .gallery-preview-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 180px);
+  }
+
+  /* Contact form */
+  .form-wrap { padding: 1.25rem; }
+
+  /* Impact, program, leader cards */
+  .impact-card,
+  .prog-card,
+  .leader-card { margin: 0; }
+
+  /* Page hero */
+  .page-hero { padding-top: calc(var(--nav-h) + 3rem); padding-bottom: 3rem; }
+
+  /* Footer bottom */
+  .footer-bottom-links { flex-direction: column; align-items: center; gap: 0.5rem; }
+
+  /* Nav logo: minimal */
+  .nav-logo-img { height: 40px; }
+  .nav-logo { gap: 0.5rem; }
+
+  /* Compact Donate: text only so logo, Donate and ☰ share one row */
+  .nav-donate { padding: 0.5rem 0.75rem; font-size: 0.8125rem; }
+  .nav-donate svg { display: none; }
+}
+
+
+/* ── XSMALL (≤ 360px) ─────────────────────────────────────── */
+@media (max-width: 360px) {
+
+  :root { --px: 0.875rem; }
+
+  .hero-title { font-size: 1.625rem; }
+  .nav-logo-img { height: 36px; }
+  .logo-wordmark__name { font-size: 0.9rem; }
+}
+
+/* ── TINY (≤ 340px, e.g. iPhone SE 1st gen) ───────────────── */
+@media (max-width: 340px) {
+  .nav-logo-img { height: 30px; }
+  .logo-wordmark__name { font-size: 0.78rem; letter-spacing: 0.02em; }
+  .nav-donate { padding: 0.5rem 0.6rem; }
+  .nav-toggle { min-width: 40px; padding: 4px; }
+
+  .btn-lg { padding: 0.875rem 1.5rem; font-size: 0.9375rem; }
+}
+
+
+/* ── REDUCED MOTION ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  [data-fade] { opacity: 1 !important; transform: none !important; }
+}
+
+
+/* ── HIGH CONTRAST MODE ───────────────────────────────────── */
+@media (forced-colors: active) {
+  .btn { border: 2px solid ButtonText; }
+  .nav-link::after { background: Highlight; }
+  .impact-card, .prog-card, .leader-card { border: 1px solid ButtonText; }
+}

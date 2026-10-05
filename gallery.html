@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+
+  <title>Gallery — Visionary Minds CBO</title>
+  <meta name="description" content="Photo gallery of Visionary Minds CBO programs, events, and community moments — capturing impact in action across Nairobi." />
+
+  <meta property="og:title"       content="Gallery — Visionary Minds CBO" />
+  <meta property="og:description" content="Capturing moments of community empowerment, training sessions, and celebrations at Visionary Minds." />
+  <meta property="og:type"        content="website" />
+
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <style>
+    /* ── Gallery page filter tabs ── */
+    .gal-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .gal-filter-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--r-full);
+      border: 2px solid var(--border);
+      background: var(--white);
+      color: var(--dark-soft);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--ease), color var(--ease), border-color var(--ease);
+    }
+    .gal-filter-btn:hover,
+    .gal-filter-btn.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+
+    /* ── Full gallery grid ── */
+    .gallery-full-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 280px;
+      gap: 1rem;
+    }
+    .gallery-full-grid .gal-item:nth-child(1) { grid-row: span 2; }
+    .gallery-full-grid .gal-item:nth-child(5) { grid-column: span 2; }
+    .gallery-full-grid .gal-item:nth-child(9) { grid-row: span 2; }
+
+    .gal-item {
+      position: relative;
+      border-radius: var(--r-md);
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--green-light);
+    }
+    .gal-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    .gal-item:hover img { transform: scale(1.05); }
+    .gal-item:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+    .gal-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(31,107,59,0.85) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+    }
+    .gal-item:hover .gal-item-overlay,
+    .gal-item:focus-visible .gal-item-overlay { opacity: 1; }
+
+    .gal-item-caption { color: var(--white); font-size: 0.9rem; font-weight: 600; line-height: 1.4; }
+    .gal-item-tag    { color: var(--gold); font-size: 0.775rem; font-weight: 500; margin-bottom: 0.25rem; }
+
+    .gal-item-zoom {
+      position: absolute;
+      top: 0.875rem;
+      right: 0.875rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .gal-item:hover .gal-item-zoom,
+    .gal-item:focus-visible .gal-item-zoom { opacity: 1; }
+    .gal-item-zoom svg { width: 16px; height: 16px; }
+
+    /* Placeholder colour fills */
+    .gal-item:nth-child(1)  { background: linear-gradient(135deg, #1F6B3B 0%, #2d9e57 100%); }
+    .gal-item:nth-child(2)  { background: linear-gradient(135deg, #D4A017 0%, #f0b92a 100%); }
+    .gal-item:nth-child(3)  { background: linear-gradient(135deg, #0E7490 0%, #22afd4 100%); }
+    .gal-item:nth-child(4)  { background: linear-gradient(135deg, #7C3AED 0%, #a576f0 100%); }
+    .gal-item:nth-child(5)  { background: linear-gradient(135deg, #1F6B3B 0%, #4ade80 100%); }
+    .gal-item:nth-child(6)  { background: linear-gradient(135deg, #BE185D 0%, #f472b6 100%); }
+    .gal-item:nth-child(7)  { background: linear-gradient(135deg, #B45309 0%, #f59e0b 100%); }
+    .gal-item:nth-child(8)  { background: linear-gradient(135deg, #1E293B 0%, #475569 100%); }
+    .gal-item:nth-child(9)  { background: linear-gradient(135deg, #065F46 0%, #34d399 100%); }
+    .gal-item:nth-child(10) { background: linear-gradient(135deg, #1D4ED8 0%, #60a5fa 100%); }
+    .gal-item:nth-child(11) { background: linear-gradient(135deg, #9D174D 0%, #ec4899 100%); }
+    .gal-item:nth-child(12) { background: linear-gradient(135deg, #78350F 0%, #d97706 100%); }
+
+    /* ── Lightbox overrides ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+
+    #lb-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: var(--r-md);
+      object-fit: contain;
+      display: block;
+    }
+
+    .lb-close, .lb-nav {
+      position: absolute;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--ease);
+    }
+    .lb-close:hover, .lb-nav:hover { background: rgba(255,255,255,0.25); }
+
+    .lb-close { top: 1.25rem; right: 1.25rem; width: 44px; height: 44px; }
+    .lb-close svg { width: 20px; height: 20px; }
+
+    .lb-nav  { top: 50%; transform: translateY(-50%); width: 48px; height: 48px; }
+    .lb-nav svg { width: 22px; height: 22px; }
+    #lb-prev { left: 1.5rem; }
+    #lb-next { right: 1.5rem; }
+
+    #lb-caption {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9375rem;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-full-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 200px;
+      }
+      .gallery-full-grid .gal-item:nth-child(1) { grid-row: span 1; }
+      .gallery-full-grid .gal-item:nth-child(5) { grid-column: span 1; }
+      .gallery-full-grid .gal-item:nth-child(9) { grid-row: span 1; }
+    }
+    @media (max-width: 480px) {
+      .gallery-full-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ════════════════════════════════════════════════ -->
+<header class="site-header" id="site-header">
+  <nav class="nav-inner container" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Visionary Minds — Home">
+      <img src="images/logo.jpeg" alt="" class="nav-logo-img" aria-hidden="true" />
+      <span class="logo-wordmark">
+        <span class="logo-wordmark__name">Visionary <em>Minds</em></span>
+        <span class="logo-wordmark__sub">Community Based Organisation</span>
+      </span>
+    </a>
+    <ul class="nav-menu" id="nav-menu" role="list">
+      <li><a href="index.html"      class="nav-link">Home</a></li>
+      <li><a href="about.html"      class="nav-link">About</a></li>
+      <li><a href="programs.html"   class="nav-link">Programs</a></li>
+      <li><a href="leadership.html" class="nav-link">Leadership</a></li>
+      <li><a href="gallery.html"    class="nav-link">Gallery</a></li>
+      <li><a href="contact.html"    class="nav-link">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-gold nav-cta">Join Us</a>
+    <a href="contact.html" class="btn btn-primary nav-donate"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Donate</a>
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+  </nav>
+</header>
+
+
+<main>
+
+<!-- ══ PAGE HERO ═════════════════════════════════════════════ -->
+<section class="page-hero gallery-page-hero" aria-labelledby="page-title">
+  <div class="container">
+    <p class="page-hero-eyebrow">Moments That Matter</p>
+    <h1 class="page-hero-title" id="page-title">Our Gallery</h1>
+    <p class="page-hero-desc">
+      A window into our community — training sessions, celebrations, programs, and the everyday
+      moments that remind us why we do this work.
+    </p>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span class="breadcrumb-current" aria-current="page">Gallery</span>
+    </nav>
+  </div>
+</section>
+
+
+<!-- ══ GALLERY GRID ══════════════════════════════════════════ -->
+<section class="section" aria-labelledby="gallery-title">
+  <div class="container">
+
+    <div class="section-hd section-hd--center" data-fade>
+      <p class="section-eyebrow">Photo Gallery</p>
+      <h2 class="section-title" id="gallery-title">Impact in Pictures</h2>
+      <p class="section-desc">Tap or click any image to view it full screen.</p>
+    </div>
+
+    <!-- Filter buttons -->
+    <div class="gal-filters" role="group" aria-label="Filter gallery by category">
+      <button class="gal-filter-btn active" type="button" data-filter="all">All Photos</button>
+      <button class="gal-filter-btn" type="button" data-filter="training">Training</button>
+      <button class="gal-filter-btn" type="button" data-filter="events">Events</button>
+      <button class="gal-filter-btn" type="button" data-filter="community">Community</button>
+      <button class="gal-filter-btn" type="button" data-filter="leadership">Leadership</button>
+    </div>
+
+    <!-- Gallery grid (12 items) -->
+    <div class="gallery-full-grid" id="gallery-grid">
+
+      <div class="gal-item" data-fade
+           data-src="images/photo-1.jpeg"
+           data-alt="Women gathering in a financial literacy training session"
+           data-category="training"
+           tabindex="0" role="button" aria-label="Open photo: Financial Literacy Training">
+        <img src="images/photo-1.jpeg" alt="Financial Literacy Training session"
+             loading="eager" decoding="sync" width="600" height="800" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Training</p>
+          <p class="gal-item-caption">Financial Literacy Training Session</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="1"
+           data-src="images/photo-2.jpeg"
+           data-alt="Young women at entrepreneurship workshop"
+           data-category="training"
+           tabindex="0" role="button" aria-label="Open photo: Entrepreneurship Workshop">
+        <img src="images/photo-2.jpeg" alt="Entrepreneurship Workshop"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Training</p>
+          <p class="gal-item-caption">Entrepreneurship Workshop</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="2"
+           data-src="images/group table.jpg"
+           data-alt="Community members at annual general meeting"
+           data-category="events"
+           tabindex="0" role="button" aria-label="Open photo: Annual General Meeting">
+        <img src="images/group table.jpg" alt="Annual General Meeting"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Events</p>
+          <p class="gal-item-caption">Annual General Meeting 2024</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="1"
+           data-src="images/Exec.jpg"
+           data-alt="Leadership development cohort group photo"
+           data-category="leadership"
+           tabindex="0" role="button" aria-label="Open photo: Leadership Development Cohort">
+        <img src="images/Exec.jpg" alt="Leadership Development Cohort"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Leadership</p>
+          <p class="gal-item-caption">Leadership Development Cohort</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="2"
+           data-src="images/photo-9.jpg"
+           data-alt="Digital skills training — laptop computers"
+           data-category="training"
+           tabindex="0" role="button" aria-label="Open photo: Digital Skills Training">
+        <img src="images/photo-9.jpg" alt="Digital Skills Training"
+             loading="lazy" decoding="async" width="1200" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Training</p>
+          <p class="gal-item-caption">Digital Skills &amp; Technology Program</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="3"
+           data-src="images/photo-7.jpg"
+           data-alt="Community members celebrating at graduation ceremony"
+           data-category="events"
+           tabindex="0" role="button" aria-label="Open photo: Graduation Ceremony">
+        <img src="images/photo-7.jpg" alt="Graduation Ceremony"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Events</p>
+          <p class="gal-item-caption">Graduation Ceremony — Class of 2024</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="1"
+           data-src="images/collab image.jpg"
+           data-alt="Community clean-up event participants"
+           data-category="community"
+           tabindex="0" role="button" aria-label="Open photo: Community Clean-Up">
+        <img src="images/collab image.jpg" alt="Community Clean-Up Drive"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Community</p>
+          <p class="gal-item-caption">Neighbourhood Clean-Up Drive</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="2"
+           data-src="images/men.jpg"
+           data-alt="Mentorship session between mentor and mentees"
+           data-category="training"
+           tabindex="0" role="button" aria-label="Open photo: Mentorship Session">
+        <img src="images/men.jpg" alt="Mentorship Session"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Training</p>
+          <p class="gal-item-caption">One-on-One Mentorship Session</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="1"
+           data-src="images/photo-8.jpg"
+           data-alt="Tree planting event in the community"
+           data-category="community"
+           tabindex="0" role="button" aria-label="Open photo: Tree Planting Event">
+        <img src="images/photo-8.jpg" alt="Tree Planting Event"
+             loading="lazy" decoding="async" width="600" height="800" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Community</p>
+          <p class="gal-item-caption">Environmental Conservation — Tree Planting</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="2"
+           data-src="images/christine.jpg"
+           data-alt="International Women's Day celebration"
+           data-category="events"
+           tabindex="0" role="button" aria-label="Open photo: International Women's Day">
+        <img src="images/christine.jpg" alt="International Women's Day Celebration"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Events</p>
+          <p class="gal-item-caption">International Women's Day Celebration</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="3"
+           data-src="images/Diana.jpeg"
+           data-alt="Youth leadership forum panel discussion"
+           data-category="leadership"
+           tabindex="0" role="button" aria-label="Open photo: Youth Leadership Forum">
+        <img src="images/Diana.jpeg" alt="Youth Leadership Forum"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Leadership</p>
+          <p class="gal-item-caption">Youth Leadership Forum 2024</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+      <div class="gal-item" data-fade data-delay="4"
+           data-src="images/community_members.jpeg"
+           data-alt="Savings group meeting — table banking"
+           data-category="community"
+           tabindex="0" role="button" aria-label="Open photo: Savings Group Meeting">
+        <img src="images/community_members.jpeg" alt="Savings Group Table Banking Meeting"
+             loading="lazy" decoding="async" width="600" height="400" />
+        <div class="gal-item-overlay">
+          <p class="gal-item-tag">Community</p>
+          <p class="gal-item-caption">Table Banking &amp; Savings Group Meeting</p>
+        </div>
+        <div class="gal-item-zoom" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+      </div>
+
+    </div><!-- /gallery-full-grid -->
+  </div>
+</section>
+
+
+<!-- ══ CTA ═══════════════════════════════════════════════════ -->
+<section class="cta-section" aria-labelledby="cta-title">
+  <div class="container">
+    <h2 class="cta-title" data-fade id="cta-title">Want to Be Part of Our Story?</h2>
+    <p class="cta-desc" data-fade>Join Visionary Minds and help us create more moments worth celebrating.</p>
+    <div class="cta-actions" data-fade>
+      <a href="contact.html"  class="btn btn-gold btn-lg">Get Involved</a>
+      <a href="programs.html" class="btn btn-outline-white btn-lg">Our Programs</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<!-- ══ LIGHTBOX ══════════════════════════════════════════════ -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+  <button id="lb-close" class="lb-close" type="button" aria-label="Close lightbox">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button id="lb-prev" class="lb-nav" type="button" aria-label="Previous image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <img id="lb-img" src="" alt="" />
+  <button id="lb-next" class="lb-nav" type="button" aria-label="Next image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <p id="lb-caption"></p>
+</div>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer class="site-footer" aria-label="Site footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="images/logo.jpeg" alt="" aria-hidden="true" />
+          <span class="logo-wordmark">
+            <span class="logo-wordmark__name">Visionary <em>Minds</em></span>
+            <span class="logo-wordmark__sub">Community Based Organisation</span>
+          </span>
+        </div>
+        <p class="footer-about">Empowering youth and women through knowledge-sharing, financial inclusion, and collective action.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-a" aria-label="Facebook"  rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" class="footer-social-a" aria-label="X"   rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+          <a href="#" class="footer-social-a" aria-label="Instagram" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://wa.me/254700000000" class="footer-social-a" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>
+          <a href="#" class="footer-social-a" aria-label="LinkedIn"  rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h3 class="footer-h">Quick Links</h3>
+        <nav class="footer-links">
+          <a href="index.html">Home</a><a href="about.html">About Us</a>
+          <a href="programs.html">Programs</a><a href="leadership.html">Leadership</a>
+          <a href="gallery.html">Gallery</a><a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="footer-h">Programs</h3>
+        <nav class="footer-links">
+          <a href="programs.html#financial">Financial Literacy</a>
+          <a href="programs.html#entrepreneurship">Entrepreneurship</a>
+          <a href="programs.html#leadership-prog">Leadership Dev.</a>
+          <a href="programs.html#digital">Digital Skills</a>
+          <a href="programs.html#community">Community Dev.</a>
+          <a href="programs.html#mentorship">Mentorship</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="footer-h">Contact Us</h3>
+        <div class="footer-contact-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>info@visionaryminds.or.ke</span></div>
+        <div class="footer-contact-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Nairobi, Kenya</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2024 Visionary Minds Community Based Organisation. All rights reserved.</p>
+      <nav class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></nav>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>

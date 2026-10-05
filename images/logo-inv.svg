@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 228 68" fill="none" role="img" aria-label="Visionary Minds">
+
+  <!-- ── ICON: circle + brain (inverted for dark backgrounds) ── -->
+
+  <!-- Outer ring -->
+  <circle cx="34" cy="34" r="30" stroke="white" stroke-width="2.8" opacity="0.88"/>
+
+  <!-- Brain body -->
+  <path d="M34,17
+    C31,15 26,14 22,16 C18,18 16,22 15,26
+    C14,31 15,35 17,39 C19,42 22,45 26,47
+    C29,48 32,48 34,47
+    C36,48 39,48 42,47
+    C46,45 49,42 51,39 C53,35 54,31 53,26
+    C52,22 50,18 46,16 C42,14 37,15 34,17Z"
+    fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="2" stroke-linejoin="round" opacity="0.82"/>
+
+  <!-- Top gyrus bump — left lobe -->
+  <path d="M22,19 C20,15 23,12 27,13 C30,14 30,18 29,20"
+    fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" opacity="0.82"/>
+
+  <!-- Top gyrus bump — right lobe -->
+  <path d="M46,19 C48,15 45,12 41,13 C38,14 38,18 39,20"
+    fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" opacity="0.82"/>
+
+  <!-- Inner fold — left hemisphere, upper -->
+  <path d="M17,30 C19,27 23,28 23,32 C23,35 20,36 18,35"
+    fill="none" stroke="white" stroke-width="1.35" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Inner fold — left hemisphere, lower -->
+  <path d="M17,40 C19,37 23,38 23,43"
+    fill="none" stroke="white" stroke-width="1.35" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Inner fold — right hemisphere, upper -->
+  <path d="M51,30 C49,27 45,28 45,32 C45,35 48,36 50,35"
+    fill="none" stroke="white" stroke-width="1.35" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Inner fold — right hemisphere, lower -->
+  <path d="M51,40 C49,37 45,38 45,43"
+    fill="none" stroke="white" stroke-width="1.35" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- Central fissure -->
+  <line x1="34" y1="17" x2="34" y2="47"
+    stroke="white" stroke-width="1.7" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Brain stem -->
+  <path d="M29,47 C29,53 31,57 34,57 C37,57 39,53 39,47"
+    fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.82"/>
+
+  <!-- Gold accent dot on stem -->
+  <circle cx="34" cy="57" r="2.2" fill="#D4A017"/>
+
+  <!-- ── TEXT ── -->
+
+  <text x="80" y="28"
+    font-family="Poppins, Arial, Helvetica, sans-serif"
+    font-weight="800" font-size="20" fill="white" letter-spacing="1.2" opacity="0.9">VISIONARY</text>
+
+  <line x1="80" y1="33" x2="218" y2="33"
+    stroke="#D4A017" stroke-width="0.9" opacity="0.55"/>
+
+  <text x="80" y="52"
+    font-family="Poppins, Arial, Helvetica, sans-serif"
+    font-weight="700" font-size="20" fill="#D4A017" letter-spacing="6">MINDS</text>
+
+</svg>
